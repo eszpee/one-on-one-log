@@ -82,6 +82,7 @@ One-on-One Log is a contact management system designed specifically for Engineer
 
 ### Development Best Practices
 - Follow SOLID principles where appropriate
+- Test-Driven Development
 - Implement comprehensive error handling with user-friendly messages
 - Apply standard data validation practices (client and server-side)
 - Include automated testing:
