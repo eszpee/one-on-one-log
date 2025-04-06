@@ -1,14 +1,3 @@
-// Root route
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Welcome to One-on-One Log API',
-    endpoints: [
-      '/api',
-      '/api/health'
-    ]
-  });
-});
-
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
