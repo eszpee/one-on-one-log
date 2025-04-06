@@ -1,0 +1,10 @@
+{
+  "watch": ["src"],
+  "ext": "js,json",
+  "ignore": ["node_modules", "tests"],
+  "delay": "500",
+  "legacyWatch": true,
+  "execMap": {
+    "js": "node --inspect=0.0.0.0:9229"
+  }
+}

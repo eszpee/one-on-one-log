@@ -4,6 +4,7 @@ services:
     image: postgres:16
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./backend/init-scripts:/docker-entrypoint-initdb.d
     env_file:
       - ./.env
     ports:
@@ -23,6 +24,9 @@ services:
     volumes:
       - ./backend:/app
       - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
     env_file:
       - ./.env
     ports:
@@ -40,6 +44,9 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
     env_file:
       - ./.env
     ports:

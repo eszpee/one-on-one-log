@@ -2,6 +2,7 @@
   "name": "one-on-one-log-frontend",
   "version": "1.0.0",
   "description": "Frontend for One-on-One Log contact management system",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
