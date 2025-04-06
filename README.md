@@ -73,7 +73,7 @@ This command will:
 - Start the frontend development server with hot-reloading enabled
 
 The application will be available at:
-- Frontend: http://localhost:8080
+- Frontend: http://localhost:8888
 - API: http://localhost:3000/api
 
 #### Production Mode
