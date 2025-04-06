@@ -8,7 +8,7 @@ One-on-One Log is a contact management system designed specifically for Engineer
 
 - Engineering Managers tracking team members and professional connections
 - Coaches and consultants managing client relationships
-- Professionals who need to maintain detailed contact records
+- Other professionals who need to maintain detailed contact records
 
 ## First Version Features
 
