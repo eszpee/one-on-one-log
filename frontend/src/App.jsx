@@ -8,7 +8,8 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api');
+        // Use the full URL for axios request
+        const response = await axios.get('http://localhost:3000/api');
         setMessage(response.data.message);
       } catch (err) {
         console.error('Error fetching API data:', err);
