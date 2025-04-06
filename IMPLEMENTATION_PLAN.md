@@ -10,18 +10,18 @@ This document outlines the step-by-step implementation plan for the One-on-One L
 
 ### Phase 1: Setup and Infrastructure
 
-- [ ] Verify development environment works with Docker (run `./dev.sh` and confirm API is accessible)
-- [ ] Install testing frameworks and dependencies:
-  - [ ] Set up Jest with supertest in backend for API testing
-  - [ ] Set up Vitest with React Testing Library in frontend
-- [ ] Create initial test files to verify testing setup works properly
-- [ ] Install Sequelize and database dependencies in backend:
-  - [ ] Install packages: `sequelize`, `sequelize-cli`, `pg`, `pg-hstore`
-  - [ ] Create Sequelize configuration file and initializer
-- [ ] **TDD**: Database connection test
-  - [ ] RED: Write a test that expects database connection to succeed
-  - [ ] GREEN: Implement database connection code
-  - [ ] REFACTOR: Clean up connection code if needed
+- [x] Verify development environment works with Docker (run `./dev.sh` and confirm API is accessible)
+- [x] Install testing frameworks and dependencies:
+  - [x] Set up Jest with supertest in backend for API testing
+  - [x] Set up Vitest with React Testing Library in frontend
+- [x] Create initial test files to verify testing setup works properly
+- [x] Install Sequelize and database dependencies in backend:
+  - [x] Install packages: `sequelize`, `sequelize-cli`, `pg`, `pg-hstore`
+  - [x] Create Sequelize configuration file and initializer
+- [x] **TDD**: Database connection test
+  - [x] RED: Write a test that expects database connection to succeed
+  - [x] GREEN: Implement database connection code
+  - [x] REFACTOR: Clean up connection code if needed
 
 ### Phase 2: Database Schema and Migrations
 

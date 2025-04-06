@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const { testConnection } = require('./db');
 
 // Initialize Express app
 const app = express();
@@ -31,11 +32,21 @@ app.get('/api', (req, res) => {
 });
 
 // Health check route
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK' });
+app.get('/api/health', async (req, res) => {
+  const dbConnected = await testConnection();
+  res.json({ 
+    status: 'OK',
+    database: dbConnected ? 'connected' : 'disconnected'
+  });
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
-});
+// Start the server only if not in test mode
+let server;
+if (process.env.NODE_ENV !== 'test') {
+  server = app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
+  });
+}
+
+// For testing, we'll export the app without starting the server
+module.exports = { app, server };

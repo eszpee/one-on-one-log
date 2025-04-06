@@ -110,15 +110,28 @@ one-on-one-log/
 │   ├── init-scripts/         # Database initialization scripts
 │   │   └── init-db.sql       # Creates database and user
 │   ├── src/                  # Source code
+│   │   ├── db/               # Database configuration and models
+│   │   │   ├── config/       # Sequelize configuration
+│   │   │   └── index.js      # Database initialization
+│   │   ├── models/           # Sequelize models
+│   │   ├── tests/            # Test files
+│   │   │   ├── api/          # API tests
+│   │   │   ├── db/           # Database tests
+│   │   │   └── setup.js      # Test configuration
 │   │   └── index.js          # Main entry point
+│   ├── jest.config.js        # Jest configuration
 │   ├── Dockerfile            # Development Docker configuration
 │   ├── Dockerfile.prod       # Production Docker configuration
 │   └── package.json          # Node.js dependencies
 │
 ├── frontend/                 # React application
 │   ├── src/                  # Source code
+│   │   ├── tests/            # Test files
+│   │   │   ├── App.test.jsx  # App component tests
+│   │   │   └── setup.js      # Test configuration
 │   │   ├── App.jsx           # Main application component
 │   │   └── main.jsx          # Entry point
+│   ├── vitest.config.js      # Vitest configuration
 │   ├── Dockerfile            # Development Docker configuration
 │   ├── Dockerfile.prod       # Production Docker configuration
 │   ├── index.html            # HTML template
@@ -131,7 +144,12 @@ one-on-one-log/
 ├── docker-compose.yml        # Development Docker Compose config
 ├── docker-compose.prod.yml   # Production Docker Compose config
 ├── setup.sh                  # Environment setup script
-└── dev.sh                    # Development server script
+├── dev.sh                    # Development server script
+├── test.sh                   # Run all tests script
+├── test-backend.sh           # Run backend tests script
+├── test-frontend.sh          # Run frontend tests script
+├── install-deps.sh           # Install dependencies script
+└── make-executable.sh        # Make scripts executable
 ```
 
 ## API Design
@@ -215,8 +233,29 @@ The application uses Sequelize ORM for database operations. While models are not
 - Test user interactions and UI state changes
 
 ### Running Tests
-- Backend: `cd backend && npm test`
-- Frontend: `cd frontend && npm test`
+- Use the provided testing scripts:
+  ```bash
+  # Make scripts executable (once only)
+  ./make-executable.sh
+  
+  # Run all tests
+  ./test.sh
+  
+  # Run backend tests only
+  ./test-backend.sh
+  
+  # Run frontend tests only
+  ./test-frontend.sh
+  ```
+
+### Test Environment
+- Tests run in a separate environment with `NODE_ENV=test`
+- Backend tests use a separate port (3001) to avoid conflicts with the running server
+- Database connections are properly closed after tests complete
+
+### Test Coverage
+- Backend: `./test-backend.sh --coverage`
+- Frontend: `./test-frontend.sh --coverage`
 
 ## DevOps
 
@@ -280,10 +319,16 @@ For database changes:
 2. Check proxy configuration in `vite.config.js`
 3. Review CORS settings in backend and environment variables
 
+#### Testing issues
+1. Make sure containers are running with `docker compose ps`
+2. If tests fail with "command not found" errors, run `./install-deps.sh` to ensure dependencies are installed
+3. For port conflicts during tests, check that the test environment is properly set to use different ports
+
 ### Debug Strategies
 - Backend logs: `docker compose logs backend`
 - Frontend logs: Browser console or `docker compose logs frontend`
 - Database logs: `docker compose logs db`
+- Run tests with verbose output: `./test-backend.sh --verbose` or `./test-frontend.sh --verbose`
 
 ### Resetting the Environment
 If needed, reset the entire development environment:
