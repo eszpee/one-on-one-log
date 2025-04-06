@@ -68,9 +68,28 @@ One-on-One Log is a contact management system designed specifically for Engineer
 ### Architecture
 - Node.js backend
 - PostgreSQL database for data storage
-- RESTful API for data operations
+- RESTful API for data operations following consistent resource naming conventions
+  - `/api/contacts` for collection operations
+  - `/api/contacts/:id` for individual contact operations
+- Service layer pattern to separate business logic from data access
+  - Contact service for encapsulating business logic
+  - Data access layer for database operations
 - Modern frontend framework (React, Vue.js, or similar)
 - Responsive design using CSS frameworks (Bootstrap, Tailwind, etc.)
+
+### Development Best Practices
+- Follow SOLID principles where appropriate
+- Implement comprehensive error handling with user-friendly messages
+- Apply standard data validation practices (client and server-side)
+- Include automated testing:
+  - Unit tests for backend services and frontend components
+  - Integration tests for API endpoints
+  - End-to-end tests for critical user flows
+- Implement database schema migration strategy for future updates
+
+### Data Management
+- Export/import functionality for contacts (CSV format)
+- Error logging and monitoring
 
 ### Deployment
 - Docker Compose configuration for easy deployment
@@ -81,7 +100,7 @@ One-on-One Log is a contact management system designed specifically for Engineer
 - Responsive design that works well on desktop and mobile browsers
 - Fast search and sort capabilities
 - Clean, intuitive user interface
-- Secure data storage
+- Secure data storage even without authentication
 - Single-user application (no authentication required for first version)
 
 ## Future Enhancements (Not in First Version)
