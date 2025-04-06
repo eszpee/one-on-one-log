@@ -26,7 +26,7 @@ One-on-One Log is a contact management system designed specifically for Engineer
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/one-on-one-log.git
+git clone https://github.com/eszpee/one-on-one-log.git
 cd one-on-one-log
 ```
 
