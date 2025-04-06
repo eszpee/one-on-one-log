@@ -24,7 +24,7 @@ One-on-One Log is a contact management system designed specifically for Engineer
   - Last Update (automatically tracked timestamp)
 - Search functionality with a text field above the table
   - Filters the table in real-time as the user types
-  - Searches across all contact fields
+  - Searches across all displayed contact fields
 - Sortable columns
   - Clicking a column header sorts the table by that column (ascending)
   - Clicking again reverses the sort order (descending)
@@ -33,12 +33,13 @@ One-on-One Log is a contact management system designed specifically for Engineer
 
 ### Contact Detail Page
 - Accessed by clicking on any row in the contact list
-- Displays all contact information in an editable form:
+- Displays all contact information in a simple profile page format:
   - First Name
   - Last Name
   - Workplace
   - Email Address
   - Known From
+  - Primary Language
   - Comments (more extensive than in the list view)
   - Last Contact Date (manual entry)
   - LinkedIn URL
@@ -47,11 +48,14 @@ One-on-One Log is a contact management system designed specifically for Engineer
   - Phone Number
   - Position/Title
   - Address
-  - Other relevant fields as needed
-- Save button to update contact information
+  - (Other relevant fields as needed)
+- Inline editing functionality:
+  - Clicking on any field transforms it into an editable input
+  - Pressing Enter saves the change immediately
+  - Changes are automatically persisted to the database
 - Delete button to remove the contact
-- Cancel button to return to the list view without saving changes
-- Last Update field (automatically updated whenever the record is modified)
+- Close button to return to the list view
+- Last Update field (automatically updated whenever any record field is modified)
 - Responsive design for mobile use
 
 ### Data Management
