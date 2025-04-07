@@ -15,6 +15,13 @@ yarn-error.log
 /frontend/dist
 /frontend/build
 
+# Test coverage and results
+/coverage/
+/backend/coverage/
+/frontend/coverage/
+**/.nyc_output/
+**/test-results/
+
 # Editor files
 .idea/
 .vscode/

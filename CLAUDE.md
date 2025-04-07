@@ -195,6 +195,16 @@ The database is automatically initialized with the script in `backend/init-scrip
 2. Creates the database with appropriate encoding
 3. Grants necessary privileges
 
+### Data Validation Philosophy
+By design, the application does not enforce strong validation on field contents. This is a deliberate choice to provide flexibility to users:
+
+- Email addresses are stored as strings without format validation
+- LinkedIn URLs are not validated for proper format
+- Phone numbers, addresses, and other fields accept any input format
+- Fields like workplace, knownFrom, etc. can contain any content the user prefers
+
+This approach allows users to use the system according to their own organizational needs and preferences. Only presence validation is applied to ensure required fields are not empty.
+
 ### ORM Setup
 The application uses Sequelize ORM for database operations. While models are not yet implemented, they will follow standard Sequelize conventions.
 
