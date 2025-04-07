@@ -75,15 +75,15 @@ This document outlines the step-by-step implementation plan for the One-on-One L
 
 **Phase Goal**: Implement the contact detail view and basic editing functionality. By the end of this phase, users can view contact details and perform basic edits, establishing a minimal end-to-end workflow.
 
-- [ ] **TDD**: Additional API endpoints
-  - [ ] RED: Write tests for POST, PUT, and DELETE endpoints
-  - [ ] GREEN: Implement create, update, and delete functionality in API
-  - [ ] REFACTOR: Clean up implementation
 - [ ] **TDD**: Contact detail view
   - [ ] RED: Write test for contact detail component
   - [ ] GREEN: Create ContactDetailPage with read-only display of contact details
   - [ ] GREEN: Implement navigation between list and detail views
   - [ ] REFACTOR: Optimize component structure
+- [ ] **TDD**: Additional API endpoints
+  - [ ] RED: Write tests for POST, PUT, and DELETE endpoints
+  - [ ] GREEN: Implement create, update, and delete functionality in API
+  - [ ] REFACTOR: Clean up implementation
 - [ ] **TDD**: Basic edit functionality
   - [ ] RED: Write tests for edit functionality
   - [ ] GREEN: Add simple form for editing contact details
