@@ -41,4 +41,64 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+/**
+ * POST /api/contacts
+ * Create a new contact
+ */
+router.post('/', async (req, res) => {
+  try {
+    const newContact = await contactService.createContact(req.body);
+    sendSuccess(res, 'Contact created successfully', newContact, 201);
+  } catch (error) {
+    console.error('Error creating contact:', error);
+    
+    const statusCode = getStatusCode(error);
+    sendError(res, 'Failed to create contact', error.message, statusCode);
+  }
+});
+
+/**
+ * PUT /api/contacts/:id
+ * Update a specific contact
+ */
+router.put('/:id', async (req, res) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    
+    if (isNaN(id)) {
+      throw new ValidationError('Contact ID must be a number');
+    }
+    
+    const updatedContact = await contactService.updateContact(id, req.body);
+    sendSuccess(res, 'Contact updated successfully', updatedContact);
+  } catch (error) {
+    console.error(`Error updating contact with ID ${req.params.id}:`, error);
+    
+    const statusCode = getStatusCode(error);
+    sendError(res, 'Failed to update contact', error.message, statusCode);
+  }
+});
+
+/**
+ * DELETE /api/contacts/:id
+ * Delete a specific contact
+ */
+router.delete('/:id', async (req, res) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    
+    if (isNaN(id)) {
+      throw new ValidationError('Contact ID must be a number');
+    }
+    
+    await contactService.deleteContact(id);
+    sendSuccess(res, 'Contact deleted successfully');
+  } catch (error) {
+    console.error(`Error deleting contact with ID ${req.params.id}:`, error);
+    
+    const statusCode = getStatusCode(error);
+    sendError(res, 'Failed to delete contact', error.message, statusCode);
+  }
+});
+
 module.exports = router;

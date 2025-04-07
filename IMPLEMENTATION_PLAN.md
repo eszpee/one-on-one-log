@@ -81,7 +81,7 @@ This document outlines the step-by-step implementation plan for the One-on-One L
   - [x] GREEN: Implement navigation between list and detail views
   - [x] REFACTOR: Optimize component structure
 - [ ] **TDD**: Additional API endpoints
-  - [ ] RED: Write tests for POST, PUT, and DELETE endpoints
+  - [x] RED: Write tests for POST, PUT, and DELETE endpoints
   - [ ] GREEN: Implement create, update, and delete functionality in API
   - [ ] REFACTOR: Clean up implementation
 - [ ] **TDD**: Basic edit functionality
