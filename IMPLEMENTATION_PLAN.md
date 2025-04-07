@@ -29,9 +29,9 @@ This document outlines the step-by-step implementation plan for the One-on-One L
 
 **Phase Goal**: Create the essential data model and basic API endpoints needed for the MVP. By the end of this phase, we'll have a Contact model in the database and basic CRUD API endpoints that can be called from the frontend.
 
-- [ ] **TDD**: Contact model with core fields
-  - [ ] RED: Write tests for Contact model with minimal required fields
-  - [ ] GREEN: Create Contact Sequelize model with essential fields:
+- [x] **TDD**: Contact model with core fields
+  - [x] RED: Write tests for Contact model with minimal required fields
+  - [x] GREEN: Create Contact Sequelize model with essential fields:
     - firstName (string)
     - lastName (string)
     - workplace (string)
@@ -40,13 +40,13 @@ This document outlines the step-by-step implementation plan for the One-on-One L
     - comments (text)
     - lastContactDate (date)
     - lastUpdate (date)
-  - [ ] REFACTOR: Optimize model code and validation
-- [ ] Write migration script for creating Contacts table
-- [ ] Run migration to verify database schema is created correctly
-- [ ] **TDD**: Basic seed data
-  - [ ] RED: Write test that expects seed data to be loaded correctly
-  - [ ] GREEN: Create seed data script with 5 sample contacts
-  - [ ] REFACTOR: Optimize seed data script
+  - [x] REFACTOR: Optimize model code and validation
+- [x] Write migration script for creating Contacts table
+- [x] Run migration to verify database schema is created correctly
+- [x] **TDD**: Basic seed data
+  - [x] RED: Write test that expects seed data to be loaded correctly
+  - [x] GREEN: Create seed data script with 5 sample contacts
+  - [x] REFACTOR: Optimize seed data script
 - [ ] **TDD**: Basic API endpoints
   - [ ] RED: Write basic tests for GET /api/contacts and GET /api/contacts/:id
   - [ ] GREEN: Implement minimal ContactRepository and ContactService
