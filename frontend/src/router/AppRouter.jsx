@@ -10,6 +10,7 @@ const AppRouter = () => {
     <MainLayout>
       <Routes>
         <Route path="/" element={<ContactListPage />} />
+        <Route path="/contacts/new" element={<ContactDetailPage />} />
         <Route path="/contacts/:id" element={<ContactDetailPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

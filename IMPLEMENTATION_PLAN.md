@@ -64,7 +64,7 @@ This document outlines the step-by-step implementation plan for the One-on-One L
 - [x] **TDD**: API service for contacts
   - [x] RED: Write test for contact API service
   - [x] GREEN: Implement a basic API service to fetch contacts
-  - [ ] REFACTOR: Clean up implementation
+  - [x] REFACTOR: Clean up implementation
 - [ ] **TDD**: Contact list page
   - [ ] RED: Write test for contact list component
   - [ ] GREEN: Create ContactListPage component that displays contacts in a table

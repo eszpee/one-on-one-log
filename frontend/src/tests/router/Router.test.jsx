@@ -43,6 +43,17 @@ describe('AppRouter', () => {
     expect(screen.getByTestId('main-layout')).toBeInTheDocument();
     expect(screen.getByTestId('contact-detail-page')).toBeInTheDocument();
   });
+  
+  it('renders the contact detail page at the /contacts/new path', () => {
+    render(
+      <MemoryRouter initialEntries={['/contacts/new']} future={FUTURE_FLAGS}>
+        <AppRouter />
+      </MemoryRouter>
+    );
+    
+    expect(screen.getByTestId('main-layout')).toBeInTheDocument();
+    expect(screen.getByTestId('contact-detail-page')).toBeInTheDocument();
+  });
 
   it('renders the not found page for unknown routes', () => {
     render(
