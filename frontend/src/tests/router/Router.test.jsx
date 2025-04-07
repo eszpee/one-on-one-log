@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
+import { FUTURE_FLAGS } from '../../router/routerConfig';
 import AppRouter from '../../router/AppRouter';
 
 // Mock the layout and page components
@@ -23,7 +24,7 @@ vi.mock('../../pages/NotFoundPage', () => ({
 describe('AppRouter', () => {
   it('renders the contact list page at the root path', () => {
     render(
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter initialEntries={['/']} future={FUTURE_FLAGS}>
         <AppRouter />
       </MemoryRouter>
     );
@@ -34,7 +35,7 @@ describe('AppRouter', () => {
 
   it('renders the contact detail page at the /contacts/:id path', () => {
     render(
-      <MemoryRouter initialEntries={['/contacts/1']}>
+      <MemoryRouter initialEntries={['/contacts/1']} future={FUTURE_FLAGS}>
         <AppRouter />
       </MemoryRouter>
     );
@@ -45,7 +46,7 @@ describe('AppRouter', () => {
 
   it('renders the not found page for unknown routes', () => {
     render(
-      <MemoryRouter initialEntries={['/unknown-route']}>
+      <MemoryRouter initialEntries={['/unknown-route']} future={FUTURE_FLAGS}>
         <AppRouter />
       </MemoryRouter>
     );

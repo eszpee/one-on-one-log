@@ -7,9 +7,19 @@ vi.mock('../router/AppRouter', () => ({
   default: () => <div data-testid="app-router">App Router Content</div>
 }));
 
+// Import the router config for mocking
+vi.mock('../router/routerConfig', () => ({
+  FUTURE_FLAGS: {
+    v7_startTransition: true,
+    v7_relativeSplatPath: true
+  }
+}));
+
 // Mock react-router-dom
 vi.mock('react-router-dom', () => ({
-  BrowserRouter: ({ children }) => <div data-testid="browser-router">{children}</div>
+  BrowserRouter: ({ children, future }) => (
+    <div data-testid="browser-router" data-future={JSON.stringify(future)}>{children}</div>
+  )
 }));
 
 describe('App Component', () => {

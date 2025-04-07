@@ -1,12 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
+import { FUTURE_FLAGS } from '../../../router/routerConfig';
 import MainLayout from '../../../components/layout/MainLayout';
 
 describe('MainLayout', () => {
   it('renders the header with application title', () => {
     render(
-      <BrowserRouter>
+      <BrowserRouter future={FUTURE_FLAGS}>
         <MainLayout>
           <div>Test content</div>
         </MainLayout>
@@ -19,7 +20,7 @@ describe('MainLayout', () => {
 
   it('renders the footer with copyright information', () => {
     render(
-      <BrowserRouter>
+      <BrowserRouter future={FUTURE_FLAGS}>
         <MainLayout>
           <div>Test content</div>
         </MainLayout>
@@ -32,7 +33,7 @@ describe('MainLayout', () => {
 
   it('renders the children content', () => {
     render(
-      <BrowserRouter>
+      <BrowserRouter future={FUTURE_FLAGS}>
         <MainLayout>
           <div data-testid="test-content">Test content</div>
         </MainLayout>
@@ -45,7 +46,7 @@ describe('MainLayout', () => {
 
   it('applies the main content layout', () => {
     render(
-      <BrowserRouter>
+      <BrowserRouter future={FUTURE_FLAGS}>
         <MainLayout>
           <div>Test content</div>
         </MainLayout>
