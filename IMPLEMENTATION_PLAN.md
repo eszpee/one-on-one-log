@@ -60,7 +60,7 @@ This document outlines the step-by-step implementation plan for the One-on-One L
 - [ ] **TDD**: Frontend router and basic layout
   - [x] RED: Write test for router and layout components
   - [x] GREEN: Set up React Router and create a basic layout component
-  - [ ] REFACTOR: Optimize component structure
+  - [-] REFACTOR: Optimize component structure
 - [ ] **TDD**: API service for contacts
   - [ ] RED: Write test for contact API service
   - [ ] GREEN: Implement a basic API service to fetch contacts
