@@ -83,7 +83,7 @@ This document outlines the step-by-step implementation plan for the One-on-One L
 - [ ] **TDD**: Additional API endpoints
   - [x] RED: Write tests for POST, PUT, and DELETE endpoints
   - [x] GREEN: Implement create, update, and delete functionality in API
-  - [ ] REFACTOR: Clean up implementation
+  - [-] REFACTOR: Clean up implementation
 - [ ] **TDD**: Basic edit functionality
   - [ ] RED: Write tests for edit functionality
   - [ ] GREEN: Add simple form for editing contact details
