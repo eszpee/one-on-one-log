@@ -80,15 +80,15 @@ This document outlines the step-by-step implementation plan for the One-on-One L
   - [x] GREEN: Create ContactDetailPage with read-only display of contact details
   - [x] GREEN: Implement navigation between list and detail views
   - [x] REFACTOR: Optimize component structure
-- [ ] **TDD**: Additional API endpoints
+- [x] **TDD**: Additional API endpoints
   - [x] RED: Write tests for POST, PUT, and DELETE endpoints
   - [x] GREEN: Implement create, update, and delete functionality in API
   - [-] REFACTOR: Clean up implementation
-- [ ] **TDD**: Basic edit functionality
-  - [ ] RED: Write tests for edit functionality
-  - [ ] GREEN: Add simple form for editing contact details
-  - [ ] GREEN: Connect form to API for saving changes
-  - [ ] REFACTOR: Improve form handling
+- [x] **TDD**: Basic edit functionality
+  - [x] RED: Write tests for edit functionality
+  - [x] GREEN: Add simple form for editing contact details
+  - [x] GREEN: Connect form to API for saving changes
+  - [-] REFACTOR: Improve form handling
 
 ### Phase 5: MVP Refinement and Core Search
 

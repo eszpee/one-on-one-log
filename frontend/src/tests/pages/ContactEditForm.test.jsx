@@ -61,6 +61,15 @@ describe('Contact Edit Functionality', () => {
   });
 
   test('should update contact when form is submitted', async () => {
+    // Update the mock implementation to return the updated contact
+    contactService.updateContact.mockImplementation((id, data) => {
+      return Promise.resolve({
+        ...mockContact,
+        ...data,
+        lastUpdate: new Date().toISOString()
+      });
+    });
+
     render(
       <MemoryRouter initialEntries={['/contacts/1']}>
         <Routes>
@@ -99,8 +108,13 @@ describe('Contact Edit Functionality', () => {
     // Form should be hidden after successful save
     expect(screen.queryByTestId('contact-edit-form')).not.toBeInTheDocument();
     
-    // Updated content should be displayed
-    expect(screen.getByText('Jane Smith')).toBeInTheDocument();
+    // Wait for the heading to be updated with the new name
+    await waitFor(() => {
+      const heading = screen.getByRole('heading', { level: 1 });
+      expect(heading).toHaveTextContent('Jane Smith');
+    });
+    
+    // Check that the workplace was updated
     expect(screen.getByText('Google')).toBeInTheDocument();
   });
 
