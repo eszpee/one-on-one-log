@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { testConnection } = require('./db');
+const contactRoutes = require('./routes/contacts');
+const { errorHandler } = require('./middleware/errorMiddleware');
 
 // Initialize Express app
 const app = express();
@@ -17,7 +19,8 @@ app.get('/', (req, res) => {
     message: 'Welcome to One-on-One Log API',
     endpoints: [
       '/api',
-      '/api/health'
+      '/api/health',
+      '/api/contacts'
     ]
   });
 });
@@ -39,6 +42,12 @@ app.get('/api/health', async (req, res) => {
     database: dbConnected ? 'connected' : 'disconnected'
   });
 });
+
+// Register contact routes
+app.use('/api/contacts', contactRoutes);
+
+// Global error handler - must be registered after all routes
+app.use(errorHandler);
 
 // Start the server only if not in test mode
 let server;

@@ -47,11 +47,11 @@ This document outlines the step-by-step implementation plan for the One-on-One L
   - [x] RED: Write test that expects seed data to be loaded correctly
   - [x] GREEN: Create seed data script with 5 sample contacts
   - [x] REFACTOR: Optimize seed data script
-- [ ] **TDD**: Basic API endpoints
-  - [ ] RED: Write basic tests for GET /api/contacts and GET /api/contacts/:id
-  - [ ] GREEN: Implement minimal ContactRepository and ContactService
-  - [ ] GREEN: Create basic GET endpoints with proper routing
-  - [ ] REFACTOR: Clean up implementation
+- [x] **TDD**: Basic API endpoints
+  - [x] RED: Write basic tests for GET /api/contacts and GET /api/contacts/:id
+  - [x] GREEN: Implement minimal ContactRepository and ContactService
+  - [x] GREEN: Create basic GET endpoints with proper routing
+  - [x] REFACTOR: Clean up implementation
 
 ### Phase 3: Frontend Foundation and Contact List View
 
