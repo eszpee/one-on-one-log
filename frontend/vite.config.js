@@ -21,5 +21,16 @@ export default defineConfig({
       overlay: true,
       clientPort: 8888
     }
+  },
+  preview: {
+    host: '0.0.0.0',
+    port: 8888,
+    proxy: {
+      '/api': {
+        target: 'http://backend:3000',
+        changeOrigin: true,
+        rewrite: (path) => path
+      }
+    }
   }
 });
