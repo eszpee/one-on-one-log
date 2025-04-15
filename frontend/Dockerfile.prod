@@ -2,27 +2,14 @@ FROM node:20-slim
 
 WORKDIR /app
 
-COPY package*.json ./
-
-# Install dependencies and set environment to skip native builds
-ENV ROLLUP_SKIP_NATIVES=true
-
-# Install dependencies
-RUN npm install
-
-# Copy application code
-COPY . .
-
 # Install http-server globally
 RUN npm install -g http-server
 
-# Build the application
-RUN npm install --no-save @rollup/rollup-linux-x64-gnu \
-    && npm run build \
-    && ls -la /app/dist || echo "DIST DIRECTORY NOT CREATED"
+# Copy our static test files
+COPY static-test ./static-test
 
 # Expose the application port
 EXPOSE 8888
 
-# Start a simple HTTP server to serve the static files
-CMD ["sh", "-c", "ls -la && http-server ./dist -p 8888 --cors -a 0.0.0.0"]
+# Start a simple HTTP server to serve the static test files
+CMD ["http-server", "./static-test", "-p", "8888", "--cors", "-a", "0.0.0.0"]
