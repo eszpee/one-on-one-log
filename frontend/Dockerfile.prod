@@ -5,8 +5,8 @@ WORKDIR /app
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install --production=false
+# Install all dependencies for the build process
+RUN npm install
 
 # Copy the rest of the application code
 COPY . .
@@ -20,7 +20,9 @@ RUN echo "NODE VERSION: $(node -v)" && \
     echo "Starting build process..." && \
     VITE_API_URL=/api npm run build && \
     echo "Build process completed" && \
-    ls -la dist || echo "DIST DIRECTORY NOT CREATED" 
+    ls -la dist || echo "DIST DIRECTORY NOT CREATED" && \
+    # Clean up node_modules after build to reduce image size
+    rm -rf node_modules
 
 # If build failed, copy the test page as a fallback
 RUN if [ ! -d "dist" ]; then \
@@ -32,5 +34,5 @@ RUN if [ ! -d "dist" ]; then \
 # Expose the application port
 EXPOSE 8888
 
-# Start a simple HTTP server to serve the static files
-CMD ["http-server", "./dist", "-p", "8888", "--cors", "-a", "0.0.0.0", "-S"]
+# Start a simple HTTP server to serve the static files with SPA support
+CMD ["http-server", "./dist", "-p", "8888", "--cors", "-a", "0.0.0.0", "--spa"]
