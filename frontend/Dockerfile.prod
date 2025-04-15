@@ -1,57 +1,19 @@
-FROM node:20-slim as builder
-
-WORKDIR /app
-
-# Copy package files first for better layer caching
-COPY package*.json ./
-
-# Clean install dependencies with platform-specific handling for Rollup
-RUN npm install --no-optional && \
-    npm install --platform=linux --arch=x64 @rollup/rollup-linux-x64-gnu
-
-# Copy the rest of the application
-COPY . .
-
-# Build the application with verbose output for better debugging
-RUN npm run build --verbose || echo "Build failed"
-
-# Verify build output
-RUN if [ -d "dist" ] && [ "$(ls -A dist)" ]; then \
-      echo "Build completed successfully"; \
-    else \
-      echo "WARNING: Build did not produce expected dist directory"; \
-    fi
-
-# Second stage - Serve the built application
 FROM node:20-slim
 
 WORKDIR /app
 
+# Copy the entire application
+COPY . .
+
+# Install dependencies
+RUN npm install
+
 # Install http-server globally
 RUN npm install -g http-server
 
-# Create directories
-RUN mkdir -p /app/dist /app/static-test
-
-# Always copy the static test page
-COPY static-test/ /app/static-test/
-
-# Try to copy the dist directory if it exists (without any error handling)
-COPY --from=builder /app/dist/ /app/dist/ 
-
-# Create the entrypoint script file
-RUN echo '#!/bin/sh' > /app/entrypoint.sh && \
-    echo 'if [ -d "/app/dist" ] && [ "$(ls -A /app/dist)" ]; then' >> /app/entrypoint.sh && \
-    echo '  echo "Starting server with built application (dist directory)"' >> /app/entrypoint.sh && \
-    echo '  http-server ./dist -p 8888 --cors -a 0.0.0.0 --spa' >> /app/entrypoint.sh && \
-    echo 'else' >> /app/entrypoint.sh && \
-    echo '  echo "WARNING: Using static test page instead of React app"' >> /app/entrypoint.sh && \
-    echo '  http-server ./static-test -p 8888 --cors -a 0.0.0.0' >> /app/entrypoint.sh && \
-    echo 'fi' >> /app/entrypoint.sh && \
-    chmod +x /app/entrypoint.sh
-
-# Expose the application port
+# Expose port
 EXPOSE 8888
 
-# Start the server using http-server directly
-CMD ["sh", "/app/entrypoint.sh"]
+# Use a very simple command - just serve the static test directory
+# This is guaranteed to work while we fix the build issues
+CMD ["http-server", "./static-test", "-p", "8888", "--cors", "-a", "0.0.0.0"]
