@@ -94,6 +94,9 @@ This document outlines the step-by-step implementation plan for the One-on-One L
 
 **Phase Goal**: Refine the MVP with essential search functionality and UX improvements. After this phase, we'll have a functional MVP with core features that provide real user value.
 
+- [ ] **TDD**: Test cleanups
+  - [ ] All test data should be prefixed by TEST for easy visibility, except for date fields. So for example alice.j@example.com becomes TESTalice.j@example.com. 
+  - [ ] Current tests should not alter the underlying database: after test running, there should be no extra data left in the DB and current data should not be altered by testing.
 - [ ] **TDD**: Create new contact
   - [ ] RED: Write test for creating a new contact
   - [ ] GREEN: Add "Add Contact" button and form
@@ -111,8 +114,6 @@ This document outlines the step-by-step implementation plan for the One-on-One L
   - [ ] RED: Write tests for loading states and error handling
   - [ ] GREEN: Add loading indicators and basic error handling
   - [ ] REFACTOR: Improve user feedback
-- [ ] **TDD**: Test cleanups
-  - [ ] Current tests should not alter the underlying database: after test running, there should be no extra data left in the DB and current data should not be altered by testing.
   
 ### Phase 6: Data Model Extension and Advanced Contact Details
 
