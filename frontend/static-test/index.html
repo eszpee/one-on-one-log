@@ -3,10 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test Page</title>
+  <title>One-on-One Log - Temporary Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 {
+      color: #333;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 10px;
+    }
+    .api-test, .links {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+    }
+    button {
+      padding: 8px 15px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    #result {
+      margin-top: 10px;
+      white-space: pre-wrap;
+      background: #eee;
+      padding: 10px;
+      border-radius: 3px;
+      display: none;
+    }
+  </style>
 </head>
 <body>
-  <h1>Test Page for 1o1 App</h1>
-  <p>If you see this, the server is working correctly!</p>
+  <h1>One-on-One Log - Temporary Page</h1>
+  
+  <p>This is a temporary page while we fix the build process for the React application. The server configuration is working correctly!</p>
+  
+  <div class="api-test">
+    <h2>API Test</h2>
+    <p>Test the backend API connection:</p>
+    <button onclick="testAPI()">Test API Connection</button>
+    <div id="result"></div>
+  </div>
+  
+  <div class="links">
+    <h2>Quick Links</h2>
+    <ul>
+      <li><a href="/api">API Root</a></li>
+      <li><a href="/api/health">API Health Check</a></li>
+      <li><a href="/api/contacts">Contacts API</a></li>
+    </ul>
+  </div>
+  
+  <script>
+    async function testAPI() {
+      const resultDiv = document.getElementById('result');
+      resultDiv.style.display = 'block';
+      resultDiv.textContent = 'Testing API connection...';
+      
+      try {
+        const response = await fetch('/api/health');
+        const data = await response.json();
+        resultDiv.textContent = 'API Response:\n' + JSON.stringify(data, null, 2);
+      } catch (error) {
+        resultDiv.textContent = 'Error connecting to API: ' + error.message;
+      }
+    }
+  </script>
 </body>
 </html>

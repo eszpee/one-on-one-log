@@ -20,3 +20,5 @@ services:
     restart: always
     ports:
       - "${FRONTEND_PORT:-8888}:8888"
+    volumes:
+      - ./frontend/static-test:/app/dist:ro
