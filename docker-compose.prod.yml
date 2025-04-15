@@ -18,5 +18,18 @@ services:
     environment:
       - NODE_ENV=production
     restart: always
+    # Note: With nginx proxy, we don't need to expose this port directly
+    # ports:
+    #  - "${FRONTEND_PORT:-8888}:8888"
+
+  # Nginx proxy service
+  nginx:
+    image: nginx:stable-alpine
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - "${FRONTEND_PORT:-8888}:8888"
+      - "80:80"
+    depends_on:
+      - frontend
+      - backend
+    restart: always
