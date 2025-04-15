@@ -57,7 +57,7 @@ This document outlines the step-by-step implementation plan for the One-on-One L
 
 **Phase Goal**: Establish the frontend framework and implement the contact list view that connects to the backend API. After this phase, users will be able to see a list of contacts fetched from the API.
 
-- [ ] **TDD**: Frontend router and basic layout
+- [x] **TDD**: Frontend router and basic layout
   - [x] RED: Write test for router and layout components
   - [x] GREEN: Set up React Router and create a basic layout component
   - [-] REFACTOR: Optimize component structure
