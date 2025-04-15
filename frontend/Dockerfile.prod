@@ -1,4 +1,4 @@
-FROM node:20-slim as builder
+FROM node:20-slim
 
 WORKDIR /app
 
@@ -13,24 +13,16 @@ RUN npm install
 # Copy application code
 COPY . .
 
-# Install missing Rollup binary and build
-RUN npm install --no-save @rollup/rollup-linux-x64-gnu \
-    && npm run build
-
-# Production stage
-FROM node:20-slim
-
-WORKDIR /app
-
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/dist ./dist
-
-# Install a simple HTTP server for production
-RUN npm install --omit=dev
+# Install http-server globally
 RUN npm install -g http-server
+
+# Build the application
+RUN npm install --no-save @rollup/rollup-linux-x64-gnu \
+    && npm run build \
+    && ls -la /app/dist || echo "DIST DIRECTORY NOT CREATED"
 
 # Expose the application port
 EXPOSE 8888
 
 # Start a simple HTTP server to serve the static files
-CMD ["serve", "-s", "dist", "-l", "8888"]
+CMD ["sh", "-c", "ls -la && http-server ./dist -p 8888 --cors -a 0.0.0.0"]
