@@ -38,9 +38,11 @@ RUN mkdir -p /app/dist /app/static-test
 # Always copy the static test page
 COPY static-test/ /app/static-test/
 
-# Try to copy build flag files and dist directory
-COPY --from=builder /app/build_* /app/ 2>/dev/null || true
-COPY --from=builder /app/dist/ /app/dist/ 2>/dev/null || true
+# Try to copy build flag files (using no bash specific features)
+COPY --from=builder /app/build_* /app/
+
+# Try to copy dist directory (using no bash specific features)
+COPY --from=builder /app/dist/* /app/dist/
 
 # Create a script to check build status and choose what to serve
 RUN echo '#!/bin/sh' > /app/start.sh && \
