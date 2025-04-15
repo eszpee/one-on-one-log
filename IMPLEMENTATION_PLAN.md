@@ -94,6 +94,10 @@ This document outlines the step-by-step implementation plan for the One-on-One L
 
 **Phase Goal**: Refine the MVP with essential search functionality and UX improvements. After this phase, we'll have a functional MVP with core features that provide real user value.
 
+- [ ] **TDD**: Create new contact
+  - [ ] RED: Write test for creating a new contact
+  - [ ] GREEN: Add "Add Contact" button and form
+  - [ ] REFACTOR: Clean up implementation
 - [ ] **TDD**: Search functionality
   - [ ] RED: Write test for search functionality in backend
   - [ ] GREEN: Implement basic search in GET /api/contacts API
@@ -103,15 +107,13 @@ This document outlines the step-by-step implementation plan for the One-on-One L
   - [ ] GREEN: Add search input to contact list page
   - [ ] GREEN: Connect search to API
   - [ ] REFACTOR: Improve search behavior with debounce
-- [ ] **TDD**: Create new contact
-  - [ ] RED: Write test for creating a new contact
-  - [ ] GREEN: Add "Add Contact" button and form
-  - [ ] REFACTOR: Clean up implementation
 - [ ] **TDD**: UX refinements
   - [ ] RED: Write tests for loading states and error handling
   - [ ] GREEN: Add loading indicators and basic error handling
   - [ ] REFACTOR: Improve user feedback
-
+- [ ] **TDD**: Test cleanups
+  - [ ] Current tests should not alter the underlying database: after test running, there should be no extra data left in the DB and current data should not be altered by testing.
+  
 ### Phase 6: Data Model Extension and Advanced Contact Details
 
 **Phase Goal**: Extend the data model with additional fields and enhance the contact detail page. By the end of this phase, the application will support all specified contact fields and provide a more comprehensive detail view.
