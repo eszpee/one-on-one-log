@@ -2,18 +2,26 @@ FROM node:20-slim
 
 WORKDIR /app
 
-# Copy the entire application
-COPY . .
+# Copy package files first for better caching
+COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Install http-server globally
-RUN npm install -g http-server
+# Copy the rest of the application
+COPY . .
+
+# Build the application 
+RUN npm run build
+
+# Set the environment variable to production
+ENV NODE_ENV=production
+
+# Install serve to handle SPA routing
+RUN npm install -g serve
 
 # Expose port
 EXPOSE 8888
 
-# Use a very simple command - just serve the static test directory
-# This is guaranteed to work while we fix the build issues
-CMD ["http-server", "./static-test", "-p", "8888", "--cors", "-a", "0.0.0.0"]
+# Start the application in preview mode
+CMD ["serve", "-s", "dist", "-l", "8888"]
