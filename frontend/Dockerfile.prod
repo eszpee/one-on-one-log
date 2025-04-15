@@ -13,15 +13,13 @@ RUN npm install --no-optional && \
 COPY . .
 
 # Build the application with verbose output for better debugging
-RUN npm run build --verbose || echo "Build failed. Debug output:" && ls -la
+RUN npm run build --verbose || echo "Build failed"
 
-# Create a flag file if build succeeds
+# Verify build output
 RUN if [ -d "dist" ] && [ "$(ls -A dist)" ]; then \
-      echo "Build completed successfully" > /app/build_succeeded && \
-      ls -la dist/; \
+      echo "Build completed successfully"; \
     else \
-      echo "WARNING: Build did not produce expected dist directory" && \
-      touch /app/build_failed; \
+      echo "WARNING: Build did not produce expected dist directory"; \
     fi
 
 # Second stage - Serve the built application
@@ -38,26 +36,25 @@ RUN mkdir -p /app/dist /app/static-test
 # Always copy the static test page
 COPY static-test/ /app/static-test/
 
-# Try to copy build flag files (using no bash specific features)
-COPY --from=builder /app/build_* /app/
+# Try to copy the dist directory if it exists
+COPY --from=builder /app/dist/ /app/dist/ || true
 
-# Try to copy dist directory (using no bash specific features)
-COPY --from=builder /app/dist/* /app/dist/
+# Create a simple shell script using a different technique
+COPY <<EOF /app/entrypoint.sh
+#!/bin/sh
+if [ -d "/app/dist" ] && [ "$(ls -A /app/dist)" ]; then
+  echo "Starting server with built application (dist directory)"
+  http-server ./dist -p 8888 --cors -a 0.0.0.0 --spa
+else
+  echo "WARNING: Using static test page instead of React app"
+  http-server ./static-test -p 8888 --cors -a 0.0.0.0
+fi
+EOF
 
-# Create a script directly in the container
-RUN echo '#!/bin/sh' > /app/start.sh && \
-    echo 'if [ -f "/app/build_succeeded" ] && [ -d "/app/dist" ] && [ "$(ls -A /app/dist)" ]; then' >> /app/start.sh && \
-    echo '  echo "Starting server with built application (dist directory)"' >> /app/start.sh && \
-    echo '  exec http-server ./dist -p 8888 --cors -a 0.0.0.0 --spa' >> /app/start.sh && \
-    echo 'else' >> /app/start.sh && \
-    echo '  echo "WARNING: Using static test page instead of React app"' >> /app/start.sh && \
-    echo '  exec http-server ./static-test -p 8888 --cors -a 0.0.0.0' >> /app/start.sh && \
-    echo 'fi' >> /app/start.sh && \
-    chmod +x /app/start.sh && \
-    cat /app/start.sh
+RUN chmod +x /app/entrypoint.sh
 
 # Expose the application port
 EXPOSE 8888
 
-# Start the server using the script directly
-CMD ["/bin/sh", "/app/start.sh"]
+# Start the server using http-server directly
+CMD ["sh", "/app/entrypoint.sh"]
