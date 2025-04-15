@@ -2,96 +2,80 @@
 
 A contact management system for tracking one-on-one meetings. Designed for Engineering Managers, coaches, and consultants to keep track of their professional contacts and 1:1 conversations. The application allows users to store, view, edit, and organize contact information in a simple and intuitive interface that works well on both desktop and mobile devices.
 
-## Development Setup
+## Features
 
-This project uses Docker Compose for local development with hot reloading for both frontend and backend.
+- **Contact List Page**: View all contacts in a sortable, searchable table format
+- **Contact Detail Page**: Access comprehensive contact profiles with inline editing
+- **Search**: Find contacts quickly with real-time filtering
+- **Sorting**: Organize contacts by different fields
+- **Responsive Design**: Works on both desktop and mobile devices
+
+## Installation (Production)
 
 ### Prerequisites
 
 - Docker and Docker Compose
-- Git
 
 ### Getting Started
 
 1. Clone the repository and navigate to the project directory
-2. Run the setup script:
+
+2. Create an environment file:
    ```bash
-   chmod +x setup.sh
-   ./setup.sh
+   cp .env.production .env
    ```
 
-4. Start the development server:
+3. Edit the `.env` file to set your preferred passwords and configuration
+
+4. Start the application in production mode:
    ```bash
-   ./dev.sh
+   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
    ```
 
-### Development Commands
+5. Initialize the database:
+   ```bash
+   ./migrate.sh
+   ```
 
-- **Start the development server:**
-  ```bash
-  ./dev.sh
-  ```
+6. (Optional) Seed the database with initial data:
+   ```bash
+   ./seed.sh
+   ```
 
-- **Start with rebuilding containers:**
-  ```bash
-  ./dev.sh --rebuild
-  ```
+7. Access the application at http://localhost:8888
 
-- **Start in detached mode (background):**
-  ```bash
-  ./dev.sh --detached
-  ```
+### Updates
 
-- **Reset your environment (including database):**
-  ```bash
-  ./setup.sh --reset
-  ```
+When updating to a new version:
 
-- **Install dependencies in Docker containers:**
-  ```bash
-  ./install-deps.sh
-  ```
+1. Pull the latest code:
+   ```bash
+   git pull
+   ```
 
-### Accessing the Application
+2. Rebuild and restart the containers:
+   ```bash
+   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+   ```
 
-- Frontend: http://localhost:8888
-- Backend API: http://localhost:3000
-- Database: PostgreSQL on port 5432
+3. Apply any database changes:
+   ```bash
+   ./migrate.sh
+   ```
 
-### Running Tests
+## Accessing the Application
 
-To run tests inside Docker containers, use the provided scripts:
+- Frontend (Web Interface): http://localhost:8888
+- API (if needed): http://localhost:3000
 
-```bash
-# Make scripts executable (once)
-./make-executable.sh
+## Development
 
-# Run all tests
-./test.sh
+For details on setting up a development environment, contributing to the project, or running tests, please refer to `CLAUDE.md`.
 
-# Run backend tests only
-./test-backend.sh
+## Documentation
 
-# Run frontend tests only
-./test-frontend.sh
-
-# Run with additional options (e.g., watch mode)
-./test-backend.sh --watch
-./test-frontend.sh --coverage
-```
-
-## Project Structure
-
-- `frontend/` - React application with Vite
-- `backend/` - Express.js API
-- `docker-compose.yml` - Development environment configuration
-- `docker-compose.prod.yml` - Production environment configuration
-
-### Documentation
-
-- `README.md` - This file, contains basic setup and usage instructions
+- `README.md` - This file, contains installation and usage instructions
 - `PROJECT_DESCRIPTION.md` - Detailed project requirements and features
-- `IMPLEMENTATION_PLAN.md` - Step-by-step development plan following TDD
-- `CLAUDE.md` - Comprehensive technical documentation
+- `CLAUDE.md` - Comprehensive technical documentation for developers
 - `TESTING.md` - Detailed testing guide and best practices
 

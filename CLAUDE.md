@@ -59,7 +59,7 @@ The application is containerized using Docker, which ensures consistent environm
 
 The application uses Docker Compose for local development with hot reloading for both frontend and backend.
 
-1. Clone the repository
+1. Clone the repository and navigate to the project directory
 2. Run the setup script:
    ```bash
    chmod +x setup.sh
@@ -96,11 +96,52 @@ The setup script will:
   ./setup.sh --reset
   ```
 
+- **Install dependencies in Docker containers:**
+  ```bash
+  ./install-deps.sh
+  ```
+
 ### Accessing Local Development Services
 
 - Frontend: http://localhost:8888
 - Backend API: http://localhost:3000
 - Database: PostgreSQL on port 5432 (default credentials in .env.development)
+
+### Running Tests
+
+To run tests inside Docker containers, use the provided scripts:
+
+```bash
+# Make scripts executable (once)
+./make-executable.sh
+
+# Run all tests
+./test.sh
+
+# Run backend tests only
+./test-backend.sh
+
+# Run frontend tests only
+./test-frontend.sh
+
+# Run with additional options (e.g., watch mode)
+./test-backend.sh --watch
+./test-frontend.sh --coverage
+```
+
+### Development Workflow
+
+1. Start the development environment with `./dev.sh --detached`
+2. Make changes to the code (both frontend and backend have hot reloading)
+3. Run tests with `./test.sh` to verify your changes
+4. View the application at http://localhost:8888 to test in browser
+5. Database changes are preserved in the Docker volume between restarts
+
+For major changes requiring a fresh start:
+```bash
+./setup.sh --reset
+./dev.sh
+```
 
 ## Directory Structure
 
@@ -287,10 +328,26 @@ The application uses Sequelize ORM for database operations. While models are not
 ## Deployment
 
 ### Production Setup
-1. Create and configure `.env` based on `.env.production`
-2. Start services:
+1. Create and configure `.env` based on `.env.production`:
+   ```bash
+   cp .env.production .env
+   ```
+   
+2. Edit the `.env` file to set your preferred passwords and configuration
+   
+3. Start services:
    ```bash
    docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+   ```
+   
+4. Initialize the database structure:
+   ```bash
+   ./migrate.sh
+   ```
+   
+5. (Optional) Seed the database with initial data:
+   ```bash
+   ./seed.sh
    ```
 
 ### Production Configuration
@@ -299,16 +356,55 @@ Key differences in production mode:
 - Backend runs in production mode with optimized settings
 - More restrictive database access
 - Lower log verbosity
+- Containers configured to restart automatically
 
 ### Database Migration Strategy
-For database changes:
-1. Create a migration script
-2. Apply it to development environment for testing
-3. Include in deployment process for production
+The application uses Sequelize migrations to manage database schema changes:
+
+1. Database migrations are defined in the `backend/src/db/migrations` directory
+2. Migrations are versioned and tracked in a special table in the database
+3. Running `./migrate.sh` applies any pending migrations in sequential order
+4. Migrations are designed to be incremental and non-destructive to existing data
+
+For developing new migrations:
+1. Create a migration file using Sequelize CLI:
+   ```bash
+   docker compose exec backend npx sequelize-cli migration:generate --name add-new-field
+   ```
+2. Edit the migration file to define both the 'up' (apply change) and 'down' (revert change) operations
+3. Test the migration in development
+4. Include in deployment process for production
+
+When deploying updates with database changes:
+1. Pull the latest code
+2. Rebuild and restart containers
+3. Run `./migrate.sh` to apply any new migrations
+4. Database schema will be updated without data loss
 
 ### Backup Strategy
-- Implement regular database backups through volume snapshots
-- Maintain backup retention policy according to data importance
+- Implement regular database backups through volume snapshots:
+  ```bash
+  docker volume ls  # Identify the postgres volume
+  docker run --rm -v one-on-one-log_postgres_data:/data -v $(pwd)/backup:/backup alpine tar -czf /backup/postgres-backup-$(date +%Y%m%d).tar.gz /data
+  ```
+- For restoring from backup:
+  ```bash
+  docker volume rm one-on-one-log_postgres_data  # Remove existing volume (make sure containers are down)
+  docker volume create one-on-one-log_postgres_data
+  docker run --rm -v one-on-one-log_postgres_data:/data -v $(pwd)/backup:/backup alpine sh -c "cd /data && tar -xzf /backup/postgres-backup-YYYYMMDD.tar.gz --strip 1"
+  ```
+- Best practice: Schedule regular backups and maintain a retention policy
+
+### Production Maintenance
+- Check container status: `docker compose ps`
+- View logs: `docker compose logs`
+- Restart services: `docker compose restart [service_name]`
+- Update application: 
+  ```bash
+  git pull
+  docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+  ./migrate.sh
+  ```
 
 ## Troubleshooting
 
