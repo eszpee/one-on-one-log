@@ -16,9 +16,6 @@ services:
       dockerfile: Dockerfile.prod
     environment:
       - NODE_ENV=production
-      - VITE_API_URL=/api
     restart: always
     ports:
       - "${FRONTEND_PORT:-8888}:8888"
-    volumes:
-      - ./frontend/static-test:/app/dist:ro

@@ -2,40 +2,14 @@ FROM node:20-slim
 
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
-
-# Install all dependencies for the build process
-RUN npm install
-
-# Copy the rest of the application code
-COPY . .
-
 # Install http-server globally
 RUN npm install -g http-server
 
-# Build the application with detailed logs
-RUN echo "NODE VERSION: $(node -v)" && \
-    echo "NPM VERSION: $(npm -v)" && \
-    echo "Content of the current directory:" && \
-    ls -la && \
-    echo "Starting build process..." && \
-    VITE_API_URL=/api npm run build || { \
-      echo "BUILD FAILED WITH ERROR CODE $?"; \
-      echo "Creating fallback page..."; \
-      mkdir -p dist; \
-      echo '<!DOCTYPE html><html><head><title>Fallback Page</title></head><body><h1>Fallback Page</h1><p>The build process failed, but this fallback page was served successfully.</p></body></html>' > dist/index.html; \
-      echo "Fallback page created"; \
-    } && \
-    echo "Build process completed" && \
-    echo "Checking dist directory:" && \
-    ls -la dist || echo "DIST DIRECTORY NOT CREATED"
+# Copy only our static test directory
+COPY static-test ./static-test
 
 # Expose the application port
 EXPOSE 8888
 
-# We'll keep the node_modules for now to debug
-# DO NOT rm -rf node_modules in production normally
-
-# Start a simple HTTP server with verbose output
-CMD ["sh", "-c", "echo 'Current directory:' && ls -la && echo 'Dist directory:' && ls -la dist || echo 'DIST DIRECTORY MISSING' && echo 'Starting server...' && http-server ./dist -p 8888 --cors -a 0.0.0.0 --spa"]
+# Start the http-server with our static test page
+CMD ["http-server", "./static-test", "-p", "8888", "--cors", "-a", "0.0.0.0"]

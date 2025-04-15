@@ -56,9 +56,9 @@
   <div class="links">
     <h2>Quick Links</h2>
     <ul>
-      <li><a href="/api">API Root</a></li>
-      <li><a href="/api/health">API Health Check</a></li>
-      <li><a href="/api/contacts">Contacts API</a></li>
+      <li><a href="http://1o1:3000/api">API Root</a></li>
+      <li><a href="http://1o1:3000/api/health">API Health Check</a></li>
+      <li><a href="http://1o1:3000/api/contacts">Contacts API</a></li>
     </ul>
   </div>
   
@@ -69,7 +69,7 @@
       resultDiv.textContent = 'Testing API connection...';
       
       try {
-        const response = await fetch('/api/health');
+        const response = await fetch('http://1o1:3000/api/health');
         const data = await response.json();
         resultDiv.textContent = 'API Response:\n' + JSON.stringify(data, null, 2);
       } catch (error) {
