@@ -1,3 +1,30 @@
+FROM node:20-slim as builder
+
+WORKDIR /app
+
+# Copy package files first for better layer caching
+COPY package*.json ./
+
+# Clean install dependencies with platform-specific handling for Rollup
+# This addresses the known issue with @rollup/rollup-linux-* dependencies
+RUN npm install --no-optional && \
+    npm install --platform=linux --arch=x64 @rollup/rollup-linux-x64-gnu || true
+
+# Copy the rest of the application
+COPY . .
+
+# Build the application with verbose output for better debugging
+RUN npm run build --verbose || (echo "Build failed. Debug output:" && ls -la)
+
+# Check if dist directory exists and has files
+RUN if [ -d "dist" ] && [ "$(ls -A dist 2>/dev/null)" ]; then \
+      echo "Build completed successfully. Contents of dist:" && \
+      ls -la dist/; \
+    else \
+      echo "WARNING: Build did not produce expected dist directory or it's empty"; \
+    fi
+
+# Second stage - Serve the built application
 FROM node:20-slim
 
 WORKDIR /app
@@ -5,11 +32,24 @@ WORKDIR /app
 # Install http-server globally
 RUN npm install -g http-server
 
-# Copy only our static test directory
+# Copy the built application from the builder stage (if it exists)
+COPY --from=builder /app/dist ./dist 2>/dev/null || true
+
+# Always copy the static test page as a fallback
 COPY static-test ./static-test
+
+# Script to check and start the server with the appropriate directory
+RUN echo '#!/bin/sh\n\
+if [ -d "/app/dist" ] && [ "$(ls -A /app/dist 2>/dev/null)" ]; then\n\
+  echo "Starting server with built application (dist directory)"\n\
+  exec http-server ./dist -p 8888 --cors -a 0.0.0.0 --spa\n\
+else\n\
+  echo "WARNING: dist directory not found or empty, using static test page instead"\n\
+  exec http-server ./static-test -p 8888 --cors -a 0.0.0.0\n\
+fi' > /app/start.sh && chmod +x /app/start.sh
 
 # Expose the application port
 EXPOSE 8888
 
-# Start the http-server with our static test page
-CMD ["http-server", "./static-test", "-p", "8888", "--cors", "-a", "0.0.0.0"]
+# Start the server using the start script
+CMD ["/app/start.sh"]
