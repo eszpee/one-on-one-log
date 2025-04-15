@@ -17,12 +17,12 @@ describe('Contact API - POST Endpoint', () => {
   // POST /api/contacts - Should create a new contact
   it('POST /api/contacts should create a new contact', async () => {
     const newContact = {
-      firstName: 'New',
-      lastName: 'Contact',
-      workplace: 'New Company',
-      email: 'new@example.com',
-      knownFrom: 'Testing',
-      comments: 'This is a new test contact',
+      firstName: 'TEST FirstName',
+      lastName: 'TEST LastName',
+      workplace: 'TEST New Company',
+      email: 'TEST.new@example.com',
+      knownFrom: 'TEST Testing',
+      comments: 'TEST This is a new test contact',
       lastContactDate: new Date().toISOString()
     };
 

@@ -12,12 +12,12 @@ describe('Contact API - DELETE Endpoint', () => {
     await Contact.destroy({ truncate: true, cascade: true });
 
     testContact = await Contact.create({
-      firstName: 'Delete',
-      lastName: 'Test',
-      workplace: 'Delete Company',
-      email: 'delete@example.com',
-      knownFrom: 'Testing',
-      comments: 'This contact will be deleted',
+      firstName: 'TEST FirstName',
+      lastName: 'TEST LastName',
+      workplace: 'TEST Delete Company',
+      email: 'TEST.delete@example.com',
+      knownFrom: 'TEST Testing',
+      comments: 'TEST This contact will be deleted',
       lastContactDate: new Date()
     });
   });

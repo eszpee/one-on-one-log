@@ -12,12 +12,12 @@ describe('Contact API - PUT Endpoint', () => {
     await Contact.destroy({ truncate: true, cascade: true });
 
     testContact = await Contact.create({
-      firstName: 'Update',
-      lastName: 'Test',
-      workplace: 'Update Company',
-      email: 'update@example.com',
-      knownFrom: 'Testing',
-      comments: 'This contact will be updated',
+      firstName: 'TEST FirstName',
+      lastName: 'TEST LastName',
+      workplace: 'TEST Update Company',
+      email: 'TEST.update@example.com',
+      knownFrom: 'TEST Testing',
+      comments: 'TEST This contact will be updated',
       lastContactDate: new Date()
     });
   });
@@ -31,11 +31,11 @@ describe('Contact API - PUT Endpoint', () => {
   // PUT /api/contacts/:id - Should update an existing contact
   it('PUT /api/contacts/:id should update a contact', async () => {
     const updatedData = {
-      firstName: 'Updated',
-      lastName: 'Contact',
-      workplace: 'New Workplace',
-      email: 'updated@example.com',
-      comments: 'This contact has been updated'
+      firstName: 'TEST FirstNameUpd',
+      lastName: 'TEST LastNameUpd',
+      workplace: 'TEST New Workplace',
+      email: 'TEST.updated@example.com',
+      comments: 'TEST This contact has been updated'
     };
 
     const response = await request(app)

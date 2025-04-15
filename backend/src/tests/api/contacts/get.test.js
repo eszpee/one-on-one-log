@@ -13,21 +13,21 @@ describe('Contact API - GET Endpoints', () => {
 
     testContacts = await Contact.bulkCreate([
       {
-        firstName: 'Test',
-        lastName: 'User',
-        workplace: 'Test Company',
-        email: 'test@example.com',
-        knownFrom: 'Testing',
-        comments: 'This is a test contact',
+        firstName: 'TEST FirstName',
+        lastName: 'TEST LastName',
+        workplace: 'TEST Company',
+        email: 'TEST.test@example.com',
+        knownFrom: 'TEST Testing',
+        comments: 'TEST This is a test contact',
         lastContactDate: new Date()
       },
       {
-        firstName: 'Another',
-        lastName: 'Person',
-        workplace: 'Another Company',
-        email: 'another@example.com',
-        knownFrom: 'Meeting',
-        comments: 'This is another test contact',
+        firstName: 'TEST FirstName2',
+        lastName: 'TEST LastName2',
+        workplace: 'TEST Another Company',
+        email: 'TEST.another@example.com',
+        knownFrom: 'TEST Meeting',
+        comments: 'TEST This is another test contact',
         lastContactDate: new Date()
       }
     ]);
