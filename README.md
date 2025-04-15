@@ -15,10 +15,15 @@ A contact management system for tracking one-on-one meetings. Designed for Engin
 ### Prerequisites
 
 - Docker and Docker Compose
+- git
 
 ### Getting Started
 
 1. Clone the repository and navigate to the project directory
+   ```bash
+   git clone https://github.com/eszpee/one-on-one-log
+   cd one-on-one-log
+   ```
 
 2. Create an environment file:
    ```bash
