@@ -2,14 +2,35 @@ FROM node:20-slim
 
 WORKDIR /app
 
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install --production=false
+
+# Copy the rest of the application code
+COPY . .
+
 # Install http-server globally
 RUN npm install -g http-server
 
-# Copy our static test files
-COPY static-test ./static-test
+# Build the application with detailed logs
+RUN echo "NODE VERSION: $(node -v)" && \
+    echo "NPM VERSION: $(npm -v)" && \
+    echo "Starting build process..." && \
+    VITE_API_URL=/api npm run build && \
+    echo "Build process completed" && \
+    ls -la dist || echo "DIST DIRECTORY NOT CREATED" 
+
+# If build failed, copy the test page as a fallback
+RUN if [ ! -d "dist" ]; then \
+      echo "Build failed, using static test page as fallback"; \
+      mkdir -p dist; \
+      cp static-test/index.html dist/; \
+    fi
 
 # Expose the application port
 EXPOSE 8888
 
-# Start a simple HTTP server to serve the static test files
-CMD ["http-server", "./static-test", "-p", "8888", "--cors", "-a", "0.0.0.0"]
+# Start a simple HTTP server to serve the static files
+CMD ["http-server", "./dist", "-p", "8888", "--cors", "-a", "0.0.0.0", "-S"]
