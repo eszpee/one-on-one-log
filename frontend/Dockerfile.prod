@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build --verbose || (echo "Build failed. Debug output:" && ls -la)
 
 # Check if dist directory exists and has files
-RUN if [ -d "dist" ] && [ "$(ls -A dist 2>/dev/null)" ]; then \
+RUN if [ -d "dist" ] && [ "$(ls -A dist)" ]; then \
       echo "Build completed successfully. Contents of dist:" && \
       ls -la dist/; \
     else \
@@ -32,15 +32,19 @@ WORKDIR /app
 # Install http-server globally
 RUN npm install -g http-server
 
-# Copy the built application from the builder stage (if it exists)
-COPY --from=builder /app/dist ./dist 2>/dev/null || true
+# Create directory structure
+RUN mkdir -p /app/dist /app/static-test
 
-# Always copy the static test page as a fallback
-COPY static-test ./static-test
+# Copy the static test page as a fallback
+COPY static-test /app/static-test/
+
+# Try to copy the built application from the builder stage
+# Using separate RUN command with conditional instead of trying to handle in COPY
+COPY --from=builder /app/dist /app/dist/ || true
 
 # Script to check and start the server with the appropriate directory
 RUN echo '#!/bin/sh\n\
-if [ -d "/app/dist" ] && [ "$(ls -A /app/dist 2>/dev/null)" ]; then\n\
+if [ -d "/app/dist" ] && [ "$(ls -A /app/dist)" ]; then\n\
   echo "Starting server with built application (dist directory)"\n\
   exec http-server ./dist -p 8888 --cors -a 0.0.0.0 --spa\n\
 else\n\
