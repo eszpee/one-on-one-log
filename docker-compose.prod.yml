@@ -14,7 +14,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
-    command: serve -s dist -l 8888
+    command: serve -s dist -l 8888 --single
     environment:
       - NODE_ENV=production
     restart: always
