@@ -14,7 +14,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
-    command: serve -s dist -l 8888 --single
+    command: sh -c "ls -la dist && http-server ./dist -p 8888 --cors -a 0.0.0.0 -P http://backend:3000/api -S -C /app/dist/index.html"
     environment:
       - NODE_ENV=production
     restart: always
